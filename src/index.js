@@ -34,21 +34,19 @@ exports.isValidXML = xmlString => {
   }
 
   const openTagList = [];
-  const split = xmlString.split('');
+  const split = xmlString.split("");
 
   for (let i = 0; i < split.length; i++) {
     const piece = split[i] + split[i + 1];
-    if (piece === '<<' || piece === '>>') return false;
+    if (piece === "<<" || piece === ">>") return false;
 
     const copy = xmlString.slice(i);
-    const closeIndex = copy.indexOf('>');
-    if (piece === '</') {
+    const closeIndex = copy.indexOf(">");
+    if (piece === "</") {
       const closeTag = copy.slice(2, closeIndex);
       const compareTag = openTagList.pop();
       if (closeTag !== compareTag) return false;
-    } else if (piece === '/>') {
-
-    } else if(split[i] === '<') {
+    } else if(split[i] === "<") {
       const openTag = copy.slice(1, closeIndex);
       openTagList.push(openTag);
     }
