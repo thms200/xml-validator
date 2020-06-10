@@ -34,26 +34,46 @@ exports.isValidXML = xmlString => {
   }
 
   const openTagList = [];
+  const deleteTagList = [];
   const split = xmlString.split("");
 
   for (let i = 0; i < split.length; i++) {
     const piece = split[i] + split[i + 1];
-    if (piece === "<<" || piece === ">>") return false;
+    if (piece === "<<" || piece === ">>") {
+      return false;
+    }
 
     const copy = xmlString.slice(i);
     const closeIndex = copy.indexOf(">");
+
     if (piece === "</") {
       const closeTag = copy.slice(2, closeIndex);
-      const compareTag = openTagList.pop();
-      if (closeTag !== compareTag) return false;
-    } else if(split[i] === "<") {
+      const compareOpenTag = openTagList.pop();
+      if (closeTag !== compareOpenTag) {
+        return false;
+      }
+      if (deleteTagList.length) {
+        const lastDeleteTag = deleteTagList.pop();
+        if (lastDeleteTag === closeTag) {
+          return false;
+        }
+      }
+      deleteTagList.push(closeTag);
+    } else if (split[i] === "<") {
       const openTag = copy.slice(1, closeIndex);
-      if (openTagList.indexOf(openTag) > -1) return false;
+      if (openTagList.indexOf(openTag) > -1) {
+        return false;
+      }
       openTagList.push(openTag);
-      if (openTagList.length > 2) return false;
+      if (openTagList.length > 2) {
+        return false;
+      }
     }
   }
 
-  if(openTagList.length > 0) return false;
+  if (openTagList.length) {
+    return false;
+  }
+
   return true;
 };
