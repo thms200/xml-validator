@@ -48,7 +48,9 @@ exports.isValidXML = xmlString => {
       if (closeTag !== compareTag) return false;
     } else if(split[i] === "<") {
       const openTag = copy.slice(1, closeIndex);
+      if (openTagList.indexOf(openTag) > -1) return false;
       openTagList.push(openTag);
+      if (openTagList.length > 2) return false;
     }
   }
 
