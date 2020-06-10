@@ -3,7 +3,13 @@
 const { isValidXML } = require("../src");
 
 describe("advanced validator test", () => {
-  it("should return false for an xml with bad close or open tags", () => {
+  it("should return appropriate value even thougth there is self close tag", () => {
+    expect(isValidXML("<div></div><img />")).toBeTruthy();
+    expect(isValidXML("<img /><span></span>")).toBeTruthy();
+    expect(isValidXML("<section><img /></section>")).toBeTruthy();
+  });
+
+  it("(invalid xml) should return false for an xml with bad close or open tags", () => {
     expect(isValidXML("<a>></a>")).toBeFalsy();
     expect(isValidXML("<a><</a>")).toBeFalsy();
     expect(isValidXML("<a></a>>")).toBeFalsy();
