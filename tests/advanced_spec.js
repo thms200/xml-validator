@@ -3,7 +3,9 @@
 const { isValidXML } = require("../src");
 
 describe("advanced validator test", () => {
-  it("FILL ME", () => {
-    // FILL ME
+  it("should return false for an xml with bad close or open tags", () => {
+    expect(isValidXML("<a>></a>")).toBeFalsy();
+    expect(isValidXML("<a><</a>")).toBeFalsy();
+    expect(isValidXML("<a></a>>")).toBeFalsy();
   });
 });
