@@ -32,6 +32,21 @@ exports.isValidXML = xmlString => {
   if (xmlString.length === 0) {
     return false;
   }
+
+  const openTagList = [];
+  const split = xmlString.split('');
+
+  for (let i = 0; i < split.length; i++) {
+    const copy = xmlString.slice(i);
+    const closeIndex = copy.indexOf('>');
+    if (split[i] + split[i + 1] === '</') {
+      const closeTag = copy.slice(2, closeIndex);
+      const compareTag = openTagList.pop();
+      if (closeTag !== compareTag) return false;
+    } else if(split[i] === '<') {
+      const openTag = copy.slice(1, closeIndex);
+      openTagList.push(openTag);
+    }
+  }
   return true;
-  // TODO: FILL ME
 };
