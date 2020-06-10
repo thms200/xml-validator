@@ -61,12 +61,14 @@ exports.isValidXML = xmlString => {
       deleteTagList.push(closeTag);
     } else if (split[i] === "<") {
       const openTag = copy.slice(1, closeIndex);
-      if (openTagList.indexOf(openTag) > -1) {
-        return false;
-      }
-      openTagList.push(openTag);
-      if (openTagList.length > 2) {
-        return false;
+      if (openTag.slice(-1) !== '/') {
+        if (openTagList.indexOf(openTag) > -1) {
+          return false;
+        }
+        openTagList.push(openTag);
+        if (openTagList.length > 2) {
+          return false;
+        }
       }
     }
   }
