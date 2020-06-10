@@ -30,4 +30,12 @@ describe("advanced validator test", () => {
     expect(isValidXML("<a></a><b><c><d></d></c></b>")).toBeFalsy();
     expect(isValidXML("<ul><li><span></span></li><ul>")).toBeFalsy();
   });
+
+  it("should return appropriate value accoring to rule", () => {
+    expect(isValidXML("<button><span>test</span></button><div></div><footer></footer>")).toBeTruthy();
+    expect(isValidXML("<header><div></div></header>")).toBeTruthy();
+    expect(isValidXML("<div><span></div></span>")).toBeFalsy();
+    expect(isValidXML("<img></img><img></img>")).toBeFalsy();
+    expect(isValidXML("<div></div></span</span>")).toBeFalsy();
+  });
 });
